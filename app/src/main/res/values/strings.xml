@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">KeepTrack</string>
+    <string name="action_settings">Settings</string>
+    <string name="fa_chevron_circle_up">&#xf139;</string>
+    <string name="fa_plus_circle">&#xf055;</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
