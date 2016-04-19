@@ -150,10 +150,10 @@ public class EventDetailsFragment extends Fragment {
             }
         });
 
-        // List item click listener
-        eventIdListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        // List item long click listener
+        eventIdListview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, final long id) {
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, final long id) {
                 CharSequence items[] = {"Edit date" , "Delete"};
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -163,6 +163,44 @@ public class EventDetailsFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         if(which == 0){
                             // Edit Date selected
+                            EventLogModel logItem = db.getEventLogDetails((int)id);
+                            Calendar cal = Calendar.getInstance();
+                            cal.setTimeInMillis(logItem.checkInDate);
+                            int mYear = cal.get(Calendar.YEAR);
+                            int mMonth = cal.get(Calendar.MONTH);
+                            int mDay = cal.get(Calendar.DAY_OF_MONTH);
+
+                            DatePickerDialog dateDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
+                                @Override
+                                public void onDateSet(DatePicker view, int yearInt, int monthOfYear, int dayOfMonth) {
+                                    if(view.isShown()){
+                                        // Fix date
+                                        monthOfYear += 1;
+
+                                        // Fix values by prepending required 0s
+                                        String day = String.format("%02d", dayOfMonth);
+                                        String month = String.format("%02d", monthOfYear);
+                                        String year = String.valueOf(yearInt);
+
+                                        // Take string date and convert to Millis
+                                        Date date = new Date();
+                                        DateFormat formatter = new SimpleDateFormat("dd/MM/yy", Locale.US);
+                                        try {
+                                            date = formatter.parse(day + "/" + month + "/" + year);
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                        Calendar cal = Calendar.getInstance();
+                                        cal.setTime(date);
+
+                                        // Add to DB and update list
+                                        db.updateEventLogEntry((int)id, cal.getTimeInMillis());
+                                        eventLogAdapter.updateList(db.getEventLog(eventID));
+                                    }
+                                }
+                            }, mYear, mMonth, mDay);
+                            dateDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+                            dateDialog.show();
                         }else if(which == 1){
                             // Delete selected and update list
                             // NOTE: here id is returned by getItemID() method of the Adapter
@@ -173,6 +211,7 @@ public class EventDetailsFragment extends Fragment {
                 });
                 builder.create();
                 builder.show();
+                return true;
             }
         });
 

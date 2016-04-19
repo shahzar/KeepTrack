@@ -152,6 +152,40 @@ public class EventDBHelper extends SQLiteOpenHelper{
         return itemList;
     }
 
+    public EventLogModel getEventLogDetails(int eventLogID){
+        EventLogModel item = new EventLogModel();
+        String query = "SELECT * FROM " + EventLog.TABLE_NAME + " WHERE " + EventLog._ID + " = '" +
+                eventLogID + "' ";
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cr = db.rawQuery(query, null);
+        if(cr.moveToFirst()){
+            item.id = cr.getInt(cr.getColumnIndex(EventLog._ID));
+            item.eventID = cr.getInt(cr.getColumnIndex(EventLog.COLUMN_NAME_EVENT_ID));
+            item.checkInDate = cr.getLong(cr.getColumnIndex(EventLog.COLUMN_NAME_CHECK_DATE));
+            item.insertDate = cr.getLong(cr.getColumnIndex(EventLog.COLUMN_NAME_INSERT_DATE));
+        }
+        cr.close();
+        return item;
+    }
+
+    public int updateEventItem(int ID, String name){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(Event.COLUMN_NAME_EVENT_NAME, name);
+
+        return db.update(Event.TABLE_NAME, contentValues, Event._ID + " = '" + ID + "' ", null);
+    }
+
+    public int updateEventLogEntry(int ID, long checkDate){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(EventLog.COLUMN_NAME_CHECK_DATE, checkDate);
+
+        return db.update(EventLog.TABLE_NAME, contentValues, EventLog._ID + " = '" + ID + "' ", null);
+    }
+
     public void deleteEvent(int ID){
         getWritableDatabase().delete(Event.TABLE_NAME, Event._ID + " = '" + ID + "' ", null);
     }
