@@ -215,6 +215,35 @@ public class EventDetailsFragment extends Fragment {
             }
         });
 
+        // EventName Edit on Long click
+        eventName.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("Edit event name:");
+
+                final EditText editText = new EditText(context);
+                editText.setText(currentEvent.eventName);
+                builder.setView(editText);
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        db.updateEventItem(currentEvent.id, editText.getText().toString());
+                        currentEvent.eventName = editText.getText().toString();
+                        eventName.setText(editText.getText().toString());
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.show();
+                return false;
+            }
+        });
         return rootView;
     }
 

@@ -88,6 +88,7 @@ public class EventDBHelper extends SQLiteOpenHelper{
     public void checkIn(int ID, long timeInMillis){
         ContentValues values = new ContentValues();
         values.put(Event.COLUMN_NAME_LAST_CHECKIN, timeInMillis);
+        // Kinda redundant and useless, needs to be modified
         long writeCatch = getWritableDatabase().update(Event.TABLE_NAME, values, Event._ID + " = '" + ID + "' ", null);
         Log.d(TAG, "Event CheckIn DB write status: " + writeCatch);
         addNewEventLogEntry(ID, timeInMillis);
@@ -103,7 +104,7 @@ public class EventDBHelper extends SQLiteOpenHelper{
             item.eventName = cr.getString(cr.getColumnIndex(Event.COLUMN_NAME_EVENT_NAME));
             item.maxLimitDays = cr.getInt(cr.getColumnIndex(Event.COLUMN_NAME_MAX_DAYS));
             item.insertDateInMillis = cr.getLong(cr.getColumnIndex(Event.COLUMN_NAME_INSERT_DATE));
-            item.lastCheckInDateInMillis = cr.getLong(cr.getColumnIndex(Event.COLUMN_NAME_LAST_CHECKIN));
+            item.lastCheckInDateInMillis = getLatestCheckIn(item.id).checkInDate;
         }
         cr.close();
         return item;
@@ -120,7 +121,7 @@ public class EventDBHelper extends SQLiteOpenHelper{
                 item.id = cr.getInt(cr.getColumnIndex(EventContract.Event._ID));
                 item.eventName = cr.getString(cr.getColumnIndex(EventContract.Event.COLUMN_NAME_EVENT_NAME));
                 item.maxLimitDays = cr.getInt(cr.getColumnIndex(EventContract.Event.COLUMN_NAME_MAX_DAYS));
-                item.lastCheckInDateInMillis = cr.getLong(cr.getColumnIndex(EventContract.Event.COLUMN_NAME_LAST_CHECKIN));
+                item.lastCheckInDateInMillis = getLatestCheckIn(item.id).checkInDate;
                 item.insertDateInMillis = cr.getLong(cr.getColumnIndex(EventContract.Event.COLUMN_NAME_INSERT_DATE));
 
                 itemList.add(item);
@@ -156,6 +157,22 @@ public class EventDBHelper extends SQLiteOpenHelper{
         EventLogModel item = new EventLogModel();
         String query = "SELECT * FROM " + EventLog.TABLE_NAME + " WHERE " + EventLog._ID + " = '" +
                 eventLogID + "' ";
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cr = db.rawQuery(query, null);
+        if(cr.moveToFirst()){
+            item.id = cr.getInt(cr.getColumnIndex(EventLog._ID));
+            item.eventID = cr.getInt(cr.getColumnIndex(EventLog.COLUMN_NAME_EVENT_ID));
+            item.checkInDate = cr.getLong(cr.getColumnIndex(EventLog.COLUMN_NAME_CHECK_DATE));
+            item.insertDate = cr.getLong(cr.getColumnIndex(EventLog.COLUMN_NAME_INSERT_DATE));
+        }
+        cr.close();
+        return item;
+    }
+
+    public EventLogModel getLatestCheckIn(int eventID){
+        EventLogModel item = new EventLogModel();
+        String query = "SELECT * FROM " + EventLog.TABLE_NAME + " WHERE " + EventLog.COLUMN_NAME_EVENT_ID + " = '" +
+                eventID + "' ORDER BY " + EventLog.COLUMN_NAME_CHECK_DATE + " DESC";
         SQLiteDatabase db = getReadableDatabase();
         Cursor cr = db.rawQuery(query, null);
         if(cr.moveToFirst()){

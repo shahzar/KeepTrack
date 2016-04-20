@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".EventDetailsFragment">
 
     <LinearLayout
+        android:id="@+id/main_event_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -26,6 +26,7 @@
                 android:text="Event Name"
                 android:paddingLeft="30dp"
                 android:paddingTop="30dp"
+                android:background="?android:attr/selectableItemBackground"
                 />
 
             <TextView
@@ -84,7 +85,8 @@
         android:id="@+id/event_id_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/light_grey">
+        android:background="@color/light_grey"
+        android:layout_below="@+id/main_event_details">
     </ListView>
 
-</LinearLayout>
+</RelativeLayout>
