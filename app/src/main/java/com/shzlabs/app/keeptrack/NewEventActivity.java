@@ -16,7 +16,6 @@ public class NewEventActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_event);
-
         dbHelper = new EventDBHelper(getApplication());
         eventName = (EditText) findViewById(R.id.event_name);
         maxDays = (EditText) findViewById(R.id.max_days);

@@ -6,7 +6,10 @@ import android.content.DialogInterface;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,8 +87,8 @@ public class EventDetailsFragment extends Fragment {
 
         // Set event name
         eventName.setText(currentEvent.eventName);
-//        if(eventLogItemList.get(0).checkInDate)
-        lastCheckedEt.setText(MainListFragment.getTimeAgo(eventLogItemList.get(0).checkInDate));
+        if(!eventLogItemList.isEmpty())
+            lastCheckedEt.setText(MainListFragment.getTimeAgo(eventLogItemList.get(0).checkInDate));
 
         // Setup event log list
         final EventLogAdapter eventLogAdapter = new EventLogAdapter(eventLogItemList);

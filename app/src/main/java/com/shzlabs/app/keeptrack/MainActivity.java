@@ -60,6 +60,27 @@ public class MainActivity extends AppCompatActivity {
         mPager = (CustomViewPager) findViewById(R.id.view_pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+        mPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
+            @Override
+            public void onPageSelected(int position) {
+                if(position == 0){
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    getSupportActionBar().setDisplayShowHomeEnabled(false);
+                }else{
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                    getSupportActionBar().setDisplayShowHomeEnabled(true);
+                }
+                super.onPageSelected(position);
+            }
+        });
     }
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
@@ -100,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
         public int getCount() {
             return pages.size();
         }
+
     }
 
     public void addPageAndSlide(int eventID){
@@ -142,9 +164,9 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id){
+            case R.id.action_settings :
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
