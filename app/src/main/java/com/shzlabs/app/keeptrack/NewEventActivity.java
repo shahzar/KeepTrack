@@ -8,7 +8,7 @@ import android.widget.EditText;
 
 public class NewEventActivity extends AppCompatActivity {
 
-    EditText eventName, maxDays;
+    EditText eventName;
     Button eventSubmitButton;
     EventDBHelper dbHelper;
 
@@ -18,14 +18,13 @@ public class NewEventActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_event);
         dbHelper = new EventDBHelper(getApplication());
         eventName = (EditText) findViewById(R.id.event_name);
-        maxDays = (EditText) findViewById(R.id.max_days);
         eventSubmitButton = (Button) findViewById(R.id.event_submit_button);
 
         eventSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 long writeCatch = dbHelper.addNewEvent(eventName.getText().toString(),
-                        Integer.parseInt(maxDays.getText().toString()));
+                        1);
                 if (writeCatch > 0) {
                     setResult(1);
                 }

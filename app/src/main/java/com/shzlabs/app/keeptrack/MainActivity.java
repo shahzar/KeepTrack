@@ -165,7 +165,9 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         switch (id){
-            case R.id.action_settings :
+            case R.id.action_about_me :
+                Intent intent = new Intent(context, AboutMeActivity.class);
+                startActivity(intent);
                 return true;
         }
 

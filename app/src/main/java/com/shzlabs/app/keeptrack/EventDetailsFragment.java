@@ -108,6 +108,7 @@ public class EventDetailsFragment extends Fragment {
                 // Add entry to DB and update list
                 db.checkIn(eventID, System.currentTimeMillis());
                 eventLogAdapter.updateList(db.getEventLog(eventID));
+                Toast.makeText(context, "Event checked in", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -145,6 +146,7 @@ public class EventDetailsFragment extends Fragment {
                             // Add to DB and update list
                             db.addNewEventLogEntry(eventID, cal.getTimeInMillis());
                             eventLogAdapter.updateList(db.getEventLog(eventID));
+                            Toast.makeText(context, "Event checked in", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }, mYear, mMonth, mDay);
@@ -199,6 +201,7 @@ public class EventDetailsFragment extends Fragment {
                                         // Add to DB and update list
                                         db.updateEventLogEntry((int)id, cal.getTimeInMillis());
                                         eventLogAdapter.updateList(db.getEventLog(eventID));
+                                        Toast.makeText(context, "Event log updated", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             }, mYear, mMonth, mDay);
@@ -209,6 +212,7 @@ public class EventDetailsFragment extends Fragment {
                             // NOTE: here id is returned by getItemID() method of the Adapter
                             db.deleteEventLogEntry((int)id);
                             eventLogAdapter.updateList(db.getEventLog(eventID));
+                            Toast.makeText(context, "Log item deleted", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -235,6 +239,7 @@ public class EventDetailsFragment extends Fragment {
                         db.updateEventItem(currentEvent.id, editText.getText().toString());
                         currentEvent.eventName = editText.getText().toString();
                         eventName.setText(editText.getText().toString());
+                        Toast.makeText(context, "Updated successfully", Toast.LENGTH_SHORT).show();
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

@@ -23,6 +23,11 @@
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.shzlabs.app.keeptrack.MainActivity" />
         </activity>
+        <activity android:name=".AboutMeActivity"
+            android:parentActivityName=".MainActivity">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.shzlabs.app.keeptrack.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

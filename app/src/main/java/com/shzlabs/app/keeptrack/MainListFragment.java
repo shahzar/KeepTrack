@@ -18,6 +18,7 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -82,6 +83,7 @@ public class MainListFragment extends Fragment {
                             dbHelper.deleteEvent(itemList.get(position).id);
                             // Update list
                             mAdapter.updateItemList(dbHelper.getEventsList());
+                            Toast.makeText(context, "Event Deleted", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -171,6 +173,7 @@ public class MainListFragment extends Fragment {
                 public void onClick(View v) {
                     dbHelper.checkIn(mItem.id, System.currentTimeMillis());
                     mAdapter.updateItemList(dbHelper.getEventsList());
+                    Toast.makeText(context, "Event checked in", Toast.LENGTH_SHORT).show();
                 }
             });
 

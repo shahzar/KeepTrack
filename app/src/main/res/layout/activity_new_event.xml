@@ -20,11 +20,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Event name"/>
-    <EditText
-        android:id="@+id/max_days"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Max days between checkins"/>
 
     <Button
         android:id="@+id/event_submit_button"

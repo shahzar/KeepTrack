@@ -64,6 +64,7 @@ public class EventDBHelper extends SQLiteOpenHelper{
     }
 
     public long addNewEvent(String name, int maxDays){
+        // NOTE: maxDays not used currently, will be required for features yet to be added.
         ContentValues values = new ContentValues();
         values.put(Event.COLUMN_NAME_EVENT_NAME, name);
         values.put(Event.COLUMN_NAME_MAX_DAYS, maxDays);
