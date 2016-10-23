@@ -9,11 +9,11 @@ A simple app to keep track of stuff!
 * Android Design Library
 
 ### Screenshots
+<img src="screenshot1.png" width="350" alt="screenshot1"/>
+<img src="screenshot2.png" width="350" alt="screenshot2"/><br/>
+<img src="screenshot3.png" width="350" alt="screenshot3"/>
+<img src="screenshot4.png" width="350" alt="screenshot4"/>
 
-![screenshot1](screenshot1.png)
-![screenshot2](screenshot2.png)
-![screenshot3](screenshot3.png)
-![screenshot4](screenshot4.png)
 
 ### Demo
 [Download APK](https://github.com/shahzar/KeepTrack/raw/master/KeepTrack.apk)
