@@ -1,5 +1,6 @@
 package com.shzlabs.app.keeptrack;
 
+import android.Manifest;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -10,7 +11,13 @@ import android.util.Log;
 import com.shzlabs.app.keeptrack.EventContract.Event;
 import com.shzlabs.app.keeptrack.EventContract.EventLog;
 import com.shzlabs.app.keeptrack.model.EventLogModel;
+import com.shzlabs.app.keeptrack.util.FileUtils;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -23,6 +30,7 @@ public class EventDBHelper extends SQLiteOpenHelper{
 
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME  = "keeptrack.db";
+    public static final String DB_FILE_PATH = "/data/data/com.shzlabs.app.keeptrack/databases/" + DATABASE_NAME;
 
     public static final String SQL_CREATE_EVENT_TABLE =
             "CREATE TABLE " + Event.TABLE_NAME + "(" +
@@ -207,7 +215,34 @@ public class EventDBHelper extends SQLiteOpenHelper{
     public void deleteEvent(int ID){
         getWritableDatabase().delete(Event.TABLE_NAME, Event._ID + " = '" + ID + "' ", null);
     }
+
     public void deleteEventLogEntry(int ID){
         getWritableDatabase().delete(EventLog.TABLE_NAME, EventLog._ID + " = '" + ID + "' ", null);
     }
+
+    public boolean importDatabase(String dbPath) throws IOException {
+
+        close();
+        File newDb = new File(dbPath);
+        File oldDb = new File(DB_FILE_PATH);
+        if( newDb.exists() ) {
+            FileUtils.copyFile(new FileInputStream(newDb), new FileOutputStream(oldDb));
+            // Access the copied database so SQLiteHelper will cache it and mark
+            // it as created.
+            getWritableDatabase().close();
+            return true;
+        }
+        return false;
+    }
+
+    public boolean exportDatabase(String exportToPath) throws IOException {
+        File db = new File(DB_FILE_PATH);
+        File exportedDB = new File(exportToPath);
+        if( db.exists() ) {
+            FileUtils.copyFile(new FileInputStream(db), new FileOutputStream(exportedDB));
+            return true;
+        }
+        return false;
+    }
+
 }
