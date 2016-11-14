@@ -186,6 +186,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean importData() {
+        // Permissions check
+        PermUtil.verifyStoragePermissions(MainActivity.this);
 
         // Display File picker
         Intent intent = new Intent(context, FilePickerActivity.class);
@@ -206,7 +208,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean exportData() {
-
         // Permissions check
         PermUtil.verifyStoragePermissions(MainActivity.this);
 
