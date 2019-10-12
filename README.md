@@ -4,9 +4,9 @@ A simple app to keep track of stuff!
 
 ### Stuff used to make this:
 
-* SQLite
-* Android CardView
-* Android Design Library
+* [SQLite](https://www.sqlite.org/index.html)
+* [Android CardView](https://developer.android.com/guide/topics/ui/layout/cardview)
+* [Android Design Library](https://guides.codepath.com/android/Design-Support-Library)
 
 ### Screenshots
 <img src="screenshot1.png" width="350" alt="screenshot1"/>
@@ -16,4 +16,4 @@ A simple app to keep track of stuff!
 
 
 ### Demo
-[Download APK](https://github.com/shahzar/KeepTrack/raw/master/KeepTrack.apk)
+[Download from PlayStore](https://github.com/shahzar/KeepTrack/raw/master/KeepTrack.apk)
